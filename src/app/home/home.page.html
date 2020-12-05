@@ -19,26 +19,26 @@
 <ion-content class="ion-padding">
 
   <ion-grid class="ion-text-center">
-    {{ kcal.toFixed(0) }} kcal
+    {{ kcal.toFixed(0) }} / {{ kcalMax.toFixed(0) }} kcal
     <ion-row>
       <ion-col>
         <div>
           <a>Proteinas</a>
-          <ion-progress-bar min="0" max="100" color="primary" value="20"></ion-progress-bar>
+          <ion-progress-bar color="primary" value="{{ proteinBar }}"></ion-progress-bar>
           {{ protein.toFixed(0) }} / {{ proteinMax.toFixed(0) }} gr
         </div>
       </ion-col>
       <ion-col>
         <div>
-          <a>Carbohidratos</a>
-          <ion-progress-bar color="secondary" value="0.5"></ion-progress-bar>
+          <a>Hidratos</a>
+          <ion-progress-bar color="secondary" value="{{ carbsBar }}"></ion-progress-bar>
           {{ carbs.toFixed(0) }} / {{ carbsMax.toFixed(0) }} gr
         </div>
       </ion-col>
       <ion-col>
         <div>
           <a>Grasas</a>
-          <ion-progress-bar color="tertiary" value="5"></ion-progress-bar>
+          <ion-progress-bar color="tertiary" value="{{ fatsBar }}"></ion-progress-bar>
           {{ fats.toFixed(0) }} / {{ fatsMax.toFixed(0) }} gr
         </div>
       </ion-col>

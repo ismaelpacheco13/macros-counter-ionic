@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Food } from '../model/food';
 
-declare var window;
-
 @Injectable({
   providedIn: 'root'
 })
@@ -122,7 +120,7 @@ export class FoodsService {
         this.dinner.push(f);
       }
     } else { // Edición de una comida
-      window.home.deleteFood(f.id); // Para llamar al metodo deleteFood del HomePage
+      
       if (typeOfFood == "breakfast") {
         this.breakfast.push(f);
       } else if (typeOfFood == "lunch") {
@@ -131,7 +129,7 @@ export class FoodsService {
         this.dinner.push(f);
       }
     }
-    window.home.updateMacros();
+
   }
 
   public deleteFood(id: number) {

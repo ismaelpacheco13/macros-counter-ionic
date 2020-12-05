@@ -50,7 +50,11 @@ export class SettingsService {
       s.kcal += (s.kcal * 0.2);
     }
 
+    // Cálculo de proteinas, hidratos y grasas
+    s.protein = (s.kcal * 0.25) / 4; // Las proteinas son un 25% de las calorias y aproximadamente 4 calorias por gramo
+    s.carbs = (s.kcal * 0.5) / 4; // Los carbohidratos son un 50% de las calorias y aproximadamente 4 calorias por gramo
+    s.fats = (s.kcal * 0.25) / 9; // Las grasas son un 25% de las calorias y aproximadamente 9 calorias por gramo
+    
     this.setting = s;
-    console.log(this.setting);
   }
 }

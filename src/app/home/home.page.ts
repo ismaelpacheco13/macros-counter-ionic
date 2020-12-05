@@ -6,8 +6,6 @@ import { Setting } from '../model/setting';
 import { FoodsService } from '../services/foods.service';
 import { SettingsService } from '../services/settings.service';
 
-declare var window;
-
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -26,6 +24,9 @@ export class HomePage {
   carbsMax: number = 0;
   fats: number = 0;
   fatsMax: number = 0;
+  proteinBar: number = 0;
+  carbsBar: number = 0;
+  fatsBar: number = 0;
   setting: Setting;
 
   constructor(
@@ -42,11 +43,11 @@ export class HomePage {
 
     this.updateMacros();
     this.updateMacrosMax();
-    window.home = this;
   }
 
   ionViewWillEnter() {
-    console.log("Me cago en dios");
+    this.updateMacros();
+    this.updateProgressBars();
   }
 
   goEditFood(id: number) {
@@ -99,8 +100,12 @@ export class HomePage {
     this.proteinMax = this.setting.protein;
     this.carbsMax = this.setting.carbs;
     this.fatsMax = this.setting.fats;
-    console.log(this.setting);
-    console.log(this.proteinMax);
+  }
+
+  updateProgressBars() {
+    this.proteinBar = this.protein / this.proteinMax;
+    this.carbsBar = this.carbs / this.carbsMax;
+    this.fatsBar = this.fats / this.fatsMax;
   }
 
 
