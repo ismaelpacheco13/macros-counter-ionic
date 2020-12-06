@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Food } from '../model/food';
 
+import { Plugins } from '@capacitor/core';
+const { Storage } = Plugins;
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -9,11 +13,11 @@ export class FoodsService {
   breakfast: Food[] = [];
   lunch: Food[] = [];
   dinner: Food[] = [];
-  foodCounter: number = 6;
+  foodCounter: number = 0;
 
   constructor(
   ) {
-    this.breakfast = [
+    /* this.breakfast = [
       {
         id: 0,
         name: "Plátano",
@@ -74,7 +78,24 @@ export class FoodsService {
         carbs: 0,
         fats: 10
       }
-    ];
+    ]; */
+
+    this.getBreakFastFromStorage().then( // Persistencia
+      data => this.breakfast = data
+    );
+
+    this.getLunchFromStorage().then( // Persistencia
+      data => this.lunch = data
+    );
+
+    this.getDinnerFromStorage().then( // Persistencia
+      data => this.dinner = data
+    );
+
+    this.getFoodCounterFromStorage().then(
+      data => this.foodCounter = data
+    );
+
   }
 
   public getSingleFood(id: number): Food {
@@ -101,6 +122,26 @@ export class FoodsService {
     return this.breakfast;
   }
 
+  public async getBreakFastFromStorage(): Promise<Food[]> { // Persistencia
+    const ret = await Storage.get({ key: 'breakfast' });
+    return JSON.parse(ret.value) ? JSON.parse(ret.value) : [];
+  }
+
+  public async getLunchFromStorage(): Promise<Food[]> { // Persistencia
+    const ret = await Storage.get({ key: 'lunch' });
+    return JSON.parse(ret.value) ? JSON.parse(ret.value) : [];
+  }
+
+  public async getDinnerFromStorage(): Promise<Food[]> { // Persistencia
+    const ret = await Storage.get({ key: 'dinner' });
+    return JSON.parse(ret.value) ? JSON.parse(ret.value) : [];
+  }
+
+  public async getFoodCounterFromStorage(): Promise<number> {
+    const { value } = await Storage.get({ key: 'foodCounter' });
+    return value ? +value : 0;
+  }
+
   public getLunch(): Food[] {
     return this.lunch;
   }
@@ -109,7 +150,7 @@ export class FoodsService {
     return this.dinner;
   }
 
-  public saveFood(f: Food, typeOfFood: string) {
+  public async saveFood(f: Food, typeOfFood: string) {
     if (f.id == undefined) { // Comida nueva
       f.id = this.foodCounter++;
       if (typeOfFood == "breakfast") {
@@ -120,7 +161,7 @@ export class FoodsService {
         this.dinner.push(f);
       }
     } else { // Edición de una comida
-      
+      this.deleteFood(f.id);
       if (typeOfFood == "breakfast") {
         this.breakfast.push(f);
       } else if (typeOfFood == "lunch") {
@@ -130,9 +171,37 @@ export class FoodsService {
       }
     }
 
+    await this.saveFoods(this.breakfast, this.lunch, this.dinner);
+    await this.saveFoodCounter(this.foodCounter);
+    console.log(this.breakfast);
+
   }
 
-  public deleteFood(id: number) {
+  public async saveFoods(breakfast: Food[], lunch: Food[], dinner: Food[]) { // Persistencia
+    await Storage.set({
+      key: 'breakfast',
+      value: JSON.stringify(breakfast)
+    });
+
+    await Storage.set({
+      key: 'lunch',
+      value: JSON.stringify(lunch)
+    });
+
+    await Storage.set({
+      key: 'dinner',
+      value: JSON.stringify(dinner)
+    });
+  }
+
+  public async saveFoodCounter(fc: number) {
+    await Storage.set({
+      key: 'foodCounter',
+      value: '' + fc
+    });
+  }
+
+  public async deleteFood(id: number) {
     if (this.breakfast.find(f => f.id === id)) {
       this.breakfast = this.breakfast.filter(f => f.id != id);
     } else if (this.lunch.find(f => f.id === id)) {
@@ -140,5 +209,7 @@ export class FoodsService {
     } else {
       this.dinner = this.dinner.filter(f => f.id != id);
     }
+
+    await this.saveFoods(this.breakfast, this.lunch, this.dinner);
   }
 }

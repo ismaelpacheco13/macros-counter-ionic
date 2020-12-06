@@ -46,6 +46,9 @@ export class HomePage {
   }
 
   ionViewWillEnter() {
+    this.breakfast = this.foodsService.getBreakfast();
+    this.lunch = this.foodsService.getLunch();
+    this.dinner = this.foodsService.getDinner();
     this.updateMacros();
     this.updateProgressBars();
   }

@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Setting } from '../model/setting';
 
+import {Plugins } from '@capacitor/core';
+const { Storage } = Plugins;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,13 +13,21 @@ export class SettingsService {
                      ,kcal: 0, bmr: 0, protein: 0, carbs: 0, fats: 0};
 
   constructor() {
+    this.getSettingFromStorage().then(
+      data => this.setting = data
+    );
   }
 
   getSetting() {
     return this.setting;
   }
 
-  public saveSettings(s: Setting) {
+  public async getSettingFromStorage(): Promise<Setting> {
+    const ret = await Storage.get({key: 'setting' });
+    return JSON.parse(ret.value) ? JSON.parse(ret.value) : [];
+  }
+
+  public async saveSettings(s: Setting) {
     // Calculo de calorías metabolismo basal (Fórmula de Harris-Benedict)
     if (s.sex == "male") {
       s.bmr = 66.473 + (13.751 * s.weight) + (5.0033 * s.height) - (6.7550 * s.age);
@@ -56,5 +67,14 @@ export class SettingsService {
     s.fats = (s.kcal * 0.25) / 9; // Las grasas son un 25% de las calorias y aproximadamente 9 calorias por gramo
     
     this.setting = s;
+
+    await this.saveSetting(this.setting);
+  }
+
+  public async saveSetting(setting: Setting) {
+    await Storage.set({
+      key: 'setting',
+      value: JSON.stringify(setting)
+    });
   }
 }
