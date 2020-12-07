@@ -19,6 +19,12 @@ export class SettingsPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    
+  }
+
+  ionViewWillEnter() {
+    this.setting = this.settingsService.getSetting();
+    console.log(this.settingsService.getSetting());
   }
 
   saveSettings() {

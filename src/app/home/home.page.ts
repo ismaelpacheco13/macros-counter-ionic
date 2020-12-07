@@ -40,16 +40,15 @@ export class HomePage {
     this.breakfast = this.foodsService.getBreakfast();
     this.lunch = this.foodsService.getLunch();
     this.dinner = this.foodsService.getDinner();
-
-    this.updateMacros();
-    this.updateMacrosMax();
   }
 
   ionViewWillEnter() {
     this.breakfast = this.foodsService.getBreakfast();
     this.lunch = this.foodsService.getLunch();
     this.dinner = this.foodsService.getDinner();
+
     this.updateMacros();
+    this.updateMacrosMax();
     this.updateProgressBars();
   }
 
@@ -67,6 +66,7 @@ export class HomePage {
       this.dinner = this.foodsService.getDinner();
     }
     this.updateMacros();
+    this.updateProgressBars();
   }
 
   updateMacros() {

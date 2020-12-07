@@ -23,8 +23,8 @@ export class SettingsService {
   }
 
   public async getSettingFromStorage(): Promise<Setting> {
-    const ret = await Storage.get({key: 'setting' });
-    return JSON.parse(ret.value) ? JSON.parse(ret.value) : [];
+    const item = await Storage.get({key: 'setting' });
+    return JSON.parse(item.value);
   }
 
   public async saveSettings(s: Setting) {

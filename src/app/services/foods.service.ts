@@ -92,7 +92,7 @@ export class FoodsService {
       data => this.dinner = data
     );
 
-    this.getFoodCounterFromStorage().then(
+    this.getFoodCounterFromStorage().then( // Persistencia
       data => this.foodCounter = data
     );
 
