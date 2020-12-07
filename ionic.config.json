@@ -1,5 +1,7 @@
 {
   "name": "macros-counter-ionic",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

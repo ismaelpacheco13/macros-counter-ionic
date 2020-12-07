@@ -173,7 +173,6 @@ export class FoodsService {
 
     await this.saveFoods(this.breakfast, this.lunch, this.dinner);
     await this.saveFoodCounter(this.foodCounter);
-    console.log(this.breakfast);
 
   }
 
