@@ -14,7 +14,7 @@ export class SettingsService {
 
   constructor() {
     this.getSettingFromStorage().then(
-      data => this.setting = data
+      data => (data != null) ? this.setting = data : ''
     );
   }
 

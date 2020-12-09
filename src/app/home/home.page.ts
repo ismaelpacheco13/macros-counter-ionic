@@ -98,11 +98,13 @@ export class HomePage {
   }
 
   updateMacrosMax() {
-    this.setting = this.settingsService.getSetting();
-    this.kcalMax = this.setting.kcal;
-    this.proteinMax = this.setting.protein;
-    this.carbsMax = this.setting.carbs;
-    this.fatsMax = this.setting.fats;
+    if (this.settingsService.getSetting() != null) {
+      this.setting = this.settingsService.getSetting();
+      this.kcalMax = this.setting.kcal;
+      this.proteinMax = this.setting.protein;
+      this.carbsMax = this.setting.carbs;
+      this.fatsMax = this.setting.fats;
+    }
   }
 
   updateProgressBars() {
